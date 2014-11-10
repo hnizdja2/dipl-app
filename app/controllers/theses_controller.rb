@@ -19,13 +19,16 @@ class ThesesController < ApplicationController
 
   # GET /theses/1/edit
   def edit
+    debugger
+    form_author = @thesis.author
   end
 
   # POST /theses
   # POST /theses.json
   def create
+    author = Author.new(author_params)
     @thesis = Thesis.new(thesis_params)
-
+    @thesis.author = author
     respond_to do |format|
       if @thesis.save
         format.html { redirect_to @thesis, notice: 'Thesis was successfully created.' }
@@ -71,4 +74,8 @@ class ThesesController < ApplicationController
     def thesis_params
       params.require(:thesis).permit(:name, :abstract, :language, :defended)
     end
+
+  def author_params
+    params.require(:thesis).require(:form_author).permit(:firstname, :surname)
+  end
 end
